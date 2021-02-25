@@ -4,9 +4,9 @@ import { GraphUtil } from "./GraphUtil";
 
 class DependencyGraph {
 
-    private readonly nodes: Set<String>;
-    private readonly rootNodes: Set<String>;
-    private readonly edges: Map<String, Set<String>>;
+    private readonly nodes: Set<string>;
+    private readonly rootNodes: Set<string>;
+    private readonly edges: Map<string, Set<string>>;
 
     constructor() {
         this.nodes = new Set();
@@ -14,13 +14,13 @@ class DependencyGraph {
         this.edges = new Map();
     }
 
-    addNode(node: String) : DependencyGraph {
+    addNode(node: string) : DependencyGraph {
         this.nodes.add(node);
         this.rootNodes.add(node);
         return this;
     }
 
-    addEdge(from: String, to: String): DependencyGraph {
+    addEdge(from: string, to: string): DependencyGraph {
         if(!this.nodes.has(from)) {
             throw new Error('Node ' + from + ' not found');
         }
@@ -28,7 +28,7 @@ class DependencyGraph {
             throw new Error('Node ' + to + ' not found');
         }
 
-        let nodes: Set<String> = this.edges.get(from) || new Set();
+        let nodes: Set<string> = this.edges.get(from) || new Set();
         if(!nodes.has(to)) {
             nodes.add(to);
             this.edges.set(from, nodes);
@@ -41,22 +41,22 @@ class DependencyGraph {
         return this;
     }
 
-    getNodes(): Set<String> {
+    getNodes(): Set<string> {
         return this.nodes;
     }
 
-    getRootNodes(): Set<String> {
+    getRootNodes(): Set<string> {
         return this.rootNodes;
     }
 
-    getEdges(): Map<String, Set<String>> {
+    getEdges(): Map<string, Set<string>> {
         return this.edges;
     }
 
-    getOrder(): IterableIterator<String> {
-        const stack = new LinkedStack<String>();
+    getOrder(): IterableIterator<string> {
+        const stack = new LinkedStack<string>();
         try {
-            GraphUtil.depthFirstSearch(this, (node: String, visited: boolean): boolean => {
+            GraphUtil.depthFirstSearch(this, (node: string, visited: boolean): boolean => {
                 if (visited) {
                     stack.push(node);
                 }

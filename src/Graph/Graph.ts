@@ -1,7 +1,7 @@
 export interface Graph {
-    addNode(name: String)
-    addEdge(from: String, to: String)
-    getNodes(): Set<String>
-    getRootNodes(): Set<String>
-    getEdges(): Map<String, Set<String>>
+    addNode(name: string)
+    addEdge(from: string, to: string)
+    getNodes(): Set<string>
+    getRootNodes(): Set<string>
+    getEdges(): Map<string, Set<string>>
 }
