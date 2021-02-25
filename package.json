@@ -2,7 +2,8 @@
   "name": "potpourri",
   "version": "1.0.0",
   "description": "A simple collections library",
-  "main": "index.js",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
   "scripts": {
     "test": "mocha --require ts-node/register test/**/*.ts",
     "build": "tsc",
