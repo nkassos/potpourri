@@ -1,12 +1,12 @@
 import type { Graph } from './Graph';
 import type { Stack } from '../Stack/Stack';
 import { LinkedStack } from "../Stack/LinkedStack";
-import type { NodeValue, NodeVistedCallback } from './types';
+import type { NodeVistedCallback } from './types';
 
-function visit(node: NodeValue, visited: Set<NodeValue>, stack: Stack<NodeValue>, edges: Map<NodeValue, Set<NodeValue>>, callback: NodeVistedCallback) {
+function visit<T>(node: T, visited: Set<T>, stack: Stack<T>, edges: Map<T, Set<T>>, callback: NodeVistedCallback<T>) {
     if(!visited.has(node)) {
         if(stack.has(node)) {
-            const cycle = new LinkedStack<string | symbol>();
+            const cycle = new LinkedStack<T>();
             cycle.push(node);
             let next = stack.pop();
             while(next != node) {
@@ -35,9 +35,9 @@ function visit(node: NodeValue, visited: Set<NodeValue>, stack: Stack<NodeValue>
 
 const GraphUtil = {
     // throws for a cycle
-    depthFirstSearch(graph: Graph, callback?: NodeVistedCallback) {
-        const visited = new Set<NodeValue>();
-        const stack = new LinkedStack<NodeValue>();
+    depthFirstSearch<T>(graph: Graph<T>, callback?: NodeVistedCallback<T>) {
+        const visited = new Set<T>();
+        const stack = new LinkedStack<T>();
         graph.getNodes().forEach((node) => {
             const result = visit(node, visited, stack, graph.getEdges(), callback);
         });

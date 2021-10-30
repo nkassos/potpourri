@@ -1,13 +1,13 @@
+import type { Graph } from './Graph';
 import { LinkedStack } from '../Stack/LinkedStack';
 import { GraphUtil } from './GraphUtil';
-import type { NodeValue } from './types';
 
 
-class DependencyGraph {
+class DependencyGraph<T> implements Graph<T> {
 
-    private readonly nodes: Set<NodeValue>;
-    private readonly rootNodes: Set<NodeValue>;
-    private readonly edges: Map<NodeValue, Set<NodeValue>>;
+    private readonly nodes: Set<T>;
+    private readonly rootNodes: Set<T>;
+    private readonly edges: Map<T, Set<T>>;
 
     constructor() {
         this.nodes = new Set();
@@ -15,13 +15,13 @@ class DependencyGraph {
         this.edges = new Map();
     }
 
-    addNode(node: string) : DependencyGraph {
+    addNode(node: T) : DependencyGraph<T> {
         this.nodes.add(node);
         this.rootNodes.add(node);
         return this;
     }
 
-    addEdge(from: string, to: string): DependencyGraph {
+    addEdge(from: T, to: T): DependencyGraph<T> {
         if(!this.nodes.has(from)) {
             throw new Error('Node ' + from + ' not found');
         }
@@ -29,7 +29,7 @@ class DependencyGraph {
             throw new Error('Node ' + to + ' not found');
         }
 
-        const nodes: Set<NodeValue> = this.edges.get(from) || new Set();
+        const nodes: Set<T> = this.edges.get(from) || new Set();
         if(!nodes.has(to)) {
             nodes.add(to);
             this.edges.set(from, nodes);
@@ -42,22 +42,22 @@ class DependencyGraph {
         return this;
     }
 
-    getNodes(): Set<NodeValue> {
+    getNodes(): Set<T> {
         return this.nodes;
     }
 
-    getRootNodes(): Set<NodeValue> {
+    getRootNodes(): Set<T> {
         return this.rootNodes;
     }
 
-    getEdges(): Map<NodeValue, Set<NodeValue>> {
+    getEdges(): Map<T, Set<T>> {
         return this.edges;
     }
 
-    getOrder(): IterableIterator<NodeValue> {
-        const stack = new LinkedStack<NodeValue>();
+    getOrder(): IterableIterator<T> {
+        const stack = new LinkedStack<T>();
         try {
-            GraphUtil.depthFirstSearch(this, (node: NodeValue, visited: boolean): boolean => {
+            GraphUtil.depthFirstSearch(this, (node: T, visited: boolean): boolean => {
                 if (visited) {
                     stack.push(node);
                 }
