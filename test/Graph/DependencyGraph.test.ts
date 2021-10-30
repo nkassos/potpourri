@@ -1,4 +1,4 @@
-import { DependencyGraph } from "../../src/Graph/DependencyGraph";
+import { DependencyGraph } from '../../src/Graph/DependencyGraph';
 import { assert } from 'chai';
 
 describe('DependencyGraph', () => {

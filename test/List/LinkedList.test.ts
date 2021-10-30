@@ -1,5 +1,5 @@
-import { LinkedList } from "../../src/List/LinkedList";
-import {assert} from "chai";
+import { LinkedList } from '../../src/List/LinkedList';
+import {assert} from 'chai';
 
 describe('LinkedList tests', () => {
     describe('push', () => {

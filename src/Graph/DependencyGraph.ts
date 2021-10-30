@@ -1,12 +1,13 @@
-import {LinkedStack} from "../Stack/LinkedStack";
-import { GraphUtil } from "./GraphUtil";
+import { LinkedStack } from '../Stack/LinkedStack';
+import { GraphUtil } from './GraphUtil';
+import type { NodeValue } from './types';
 
 
 class DependencyGraph {
 
-    private readonly nodes: Set<string>;
-    private readonly rootNodes: Set<string>;
-    private readonly edges: Map<string, Set<string>>;
+    private readonly nodes: Set<NodeValue>;
+    private readonly rootNodes: Set<NodeValue>;
+    private readonly edges: Map<NodeValue, Set<NodeValue>>;
 
     constructor() {
         this.nodes = new Set();
@@ -28,7 +29,7 @@ class DependencyGraph {
             throw new Error('Node ' + to + ' not found');
         }
 
-        let nodes: Set<string> = this.edges.get(from) || new Set();
+        const nodes: Set<NodeValue> = this.edges.get(from) || new Set();
         if(!nodes.has(to)) {
             nodes.add(to);
             this.edges.set(from, nodes);
@@ -41,22 +42,22 @@ class DependencyGraph {
         return this;
     }
 
-    getNodes(): Set<string> {
+    getNodes(): Set<NodeValue> {
         return this.nodes;
     }
 
-    getRootNodes(): Set<string> {
+    getRootNodes(): Set<NodeValue> {
         return this.rootNodes;
     }
 
-    getEdges(): Map<string, Set<string>> {
+    getEdges(): Map<NodeValue, Set<NodeValue>> {
         return this.edges;
     }
 
-    getOrder(): IterableIterator<string> {
-        const stack = new LinkedStack<string>();
+    getOrder(): IterableIterator<NodeValue> {
+        const stack = new LinkedStack<NodeValue>();
         try {
-            GraphUtil.depthFirstSearch(this, (node: string, visited: boolean): boolean => {
+            GraphUtil.depthFirstSearch(this, (node: NodeValue, visited: boolean): boolean => {
                 if (visited) {
                     stack.push(node);
                 }

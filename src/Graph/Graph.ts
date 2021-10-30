@@ -1,7 +1,9 @@
+import type { NodeValue } from './types';
+
 export interface Graph {
-    addNode(name: string)
-    addEdge(from: string, to: string)
-    getNodes(): Set<string>
-    getRootNodes(): Set<string>
-    getEdges(): Map<string, Set<string>>
+    addNode(name: NodeValue)
+    addEdge(from: NodeValue, to: NodeValue)
+    getNodes(): Set<NodeValue>
+    getRootNodes(): Set<NodeValue>
+    getEdges(): Map<NodeValue, Set<NodeValue>>
 }

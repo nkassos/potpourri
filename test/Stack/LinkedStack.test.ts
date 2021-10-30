@@ -1,5 +1,5 @@
-import {LinkedStack} from "../../src";
-import type {Stack} from '../../src/Stack/Stack';
+import type { Stack } from '../../src/Stack/Stack';
+import { LinkedStack } from '../../src';
 import { assert } from 'chai';
 
 describe('LinkedStack tests', () => {
