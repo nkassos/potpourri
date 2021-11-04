@@ -53,7 +53,7 @@ class StringGraph implements Graph<string> {
     getEdges(): Map<string, Set<string>> {
         return this.edges;
     }
-    
+
 }
 
 export { StringGraph };
