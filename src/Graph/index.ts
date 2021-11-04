@@ -1,2 +1,2 @@
 export { Graph } from './Graph';
-export { DependencyGraph } from './DependencyGraph';
+export { StringGraph } from './StringGraph';

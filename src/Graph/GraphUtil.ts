@@ -6,6 +6,8 @@ import type { NodeVistedCallback } from './types';
 function visit<T>(node: T, visited: Set<T>, stack: Stack<T>, edges: Map<T, Set<T>>, callback: NodeVistedCallback<T>) {
     if(!visited.has(node)) {
         if(stack.has(node)) {
+            // detects a cycle
+            // push the relevant nodes onto a stack and throw
             const cycle = new LinkedStack<T>();
             cycle.push(node);
             let next = stack.pop();
@@ -53,6 +55,21 @@ const GraphUtil = {
             });
         });
         return edgesTo;
+    },
+
+    *getCanonicalOrder<T>(graph: Graph<T>): IterableIterator<T> {
+        const stack = new LinkedStack<T>();
+        try {
+            GraphUtil.depthFirstSearch<T>(graph, (node: T, visited: boolean): boolean => {
+                if (visited) {
+                    stack.push(node);
+                }
+                return true;
+            });
+        } catch (err) {
+            throw new Error('this is cyclic');
+        }
+        return stack.iterator();
     }
 };
 

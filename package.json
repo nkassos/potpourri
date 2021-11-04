@@ -12,6 +12,7 @@
   "author": "Noah Kassos",
   "license": "ISC",
   "devDependencies": {
+    "@types/chai": "^4.2.22",
     "@types/mocha": "^9.0.0",
     "@types/node": "^16.11.6",
     "chai": "^4.3.4",

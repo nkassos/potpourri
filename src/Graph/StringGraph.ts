@@ -3,11 +3,11 @@ import { LinkedStack } from '../Stack/LinkedStack';
 import { GraphUtil } from './GraphUtil';
 
 
-class DependencyGraph<T> implements Graph<T> {
+class StringGraph implements Graph<string> {
 
-    private readonly nodes: Set<T>;
-    private readonly rootNodes: Set<T>;
-    private readonly edges: Map<T, Set<T>>;
+    private readonly nodes: Set<string>;
+    private readonly rootNodes: Set<string>;
+    private readonly edges: Map<string, Set<string>>;
 
     constructor() {
         this.nodes = new Set();
@@ -15,13 +15,13 @@ class DependencyGraph<T> implements Graph<T> {
         this.edges = new Map();
     }
 
-    addNode(node: T) : DependencyGraph<T> {
+    addNode(node: string) : Graph<string> {
         this.nodes.add(node);
         this.rootNodes.add(node);
         return this;
     }
 
-    addEdge(from: T, to: T): DependencyGraph<T> {
+    addEdge(from: string, to: string): Graph<string> {
         if(!this.nodes.has(from)) {
             throw new Error('Node ' + from + ' not found');
         }
@@ -29,7 +29,7 @@ class DependencyGraph<T> implements Graph<T> {
             throw new Error('Node ' + to + ' not found');
         }
 
-        const nodes: Set<T> = this.edges.get(from) || new Set();
+        const nodes: Set<string> = this.edges.get(from) || new Set();
         if(!nodes.has(to)) {
             nodes.add(to);
             this.edges.set(from, nodes);
@@ -42,32 +42,18 @@ class DependencyGraph<T> implements Graph<T> {
         return this;
     }
 
-    getNodes(): Set<T> {
+    getNodes(): Set<string> {
         return this.nodes;
     }
 
-    getRootNodes(): Set<T> {
+    getRootNodes(): Set<string> {
         return this.rootNodes;
     }
 
-    getEdges(): Map<T, Set<T>> {
+    getEdges(): Map<string, Set<string>> {
         return this.edges;
     }
-
-    getOrder(): IterableIterator<T> {
-        const stack = new LinkedStack<T>();
-        try {
-            GraphUtil.depthFirstSearch(this, (node: T, visited: boolean): boolean => {
-                if (visited) {
-                    stack.push(node);
-                }
-                return true;
-            });
-        } catch (err) {
-            throw new Error('this is cyclic');
-        }
-        return stack.iterator();
-    }
+    
 }
 
-export { DependencyGraph };
+export { StringGraph };
