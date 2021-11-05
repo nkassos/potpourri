@@ -55,21 +55,6 @@ const GraphUtil = {
             });
         });
         return edgesTo;
-    },
-
-    *getCanonicalOrder<T>(graph: Graph<T>): IterableIterator<T> {
-        const stack = new LinkedStack<T>();
-        try {
-            GraphUtil.depthFirstSearch<T>(graph, (node: T, visited: boolean): boolean => {
-                if (visited) {
-                    stack.push(node);
-                }
-                return true;
-            });
-        } catch (err) {
-            throw new Error('this is cyclic');
-        }
-        return stack.iterator();
     }
 };
 

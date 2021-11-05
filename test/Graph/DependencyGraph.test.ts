@@ -1,9 +1,10 @@
-import { StringGraph } from '../../src/Graph/StringGraph';
+import { DependencyGraph } from '../../src/Graph/DependencyGraph';
+import { GraphUtil } from '../../dist/Graph/GraphUtil';
 import { assert } from 'chai';
 
 describe('DependencyGraph', () => {
     it('should create the correct order', () => {
-        const g = new StringGraph<string>();
+        const g = new DependencyGraph();
         g.addNode('node-1');
         g.addNode('node-2');
         g.addNode('node-3');
@@ -23,7 +24,7 @@ describe('DependencyGraph', () => {
     });
 
     it('should detect a cycle', () => {
-        const g = new StringGraph<string>();
+        const g = new DependencyGraph();
         g.addNode('node-1');
         g.addNode('node-2');
         g.addNode('node-3');
@@ -41,7 +42,7 @@ describe('DependencyGraph', () => {
     });
 
     it('should throw if from node not present', () => {
-        const g = new StringGraph<string>();
+        const g = new DependencyGraph();
         g.addNode('to');
         try {
             g.addEdge('from', 'to');
@@ -52,7 +53,7 @@ describe('DependencyGraph', () => {
     });
 
     it('should throw if to node not present', () => {
-        const g = new StringGraph<string>();
+        const g = new DependencyGraph();
         g.addNode('from');
         try {
             g.addEdge('from', 'to');
@@ -63,13 +64,13 @@ describe('DependencyGraph', () => {
     });
 
     it('should add a new node as a root node', () => {
-        const g = new StringGraph<string>();
+        const g = new DependencyGraph();
         g.addNode('node');
         assert.isTrue(g.getRootNodes().has('node'));
     });
 
     it('should remove a node from root nodes when a dependency is added', () => {
-        const g = new StringGraph<string>();
+        const g = new DependencyGraph();
         g.addNode('node-1');
         g.addNode('node-2');
         assert.equal(2, g.getRootNodes().size);

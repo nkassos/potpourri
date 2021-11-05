@@ -1,11 +1,10 @@
 {
   "compilerOptions": {
-    "target": "es2018",
+    "target": "es2021",
     "module": "commonjs",
     "outDir": "dist",
     "sourceMap": true,
     "declaration": true,
-    "downlevelIteration": true,
     "noImplicitThis": true
   },
   "include": [

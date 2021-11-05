@@ -3,7 +3,7 @@ import { LinkedStack } from '../Stack/LinkedStack';
 import { GraphUtil } from './GraphUtil';
 
 
-class StringGraph implements Graph<string> {
+class DependencyGraph implements Graph<string> {
 
     private readonly nodes: Set<string>;
     private readonly rootNodes: Set<string>;
@@ -53,7 +53,21 @@ class StringGraph implements Graph<string> {
     getEdges(): Map<string, Set<string>> {
         return this.edges;
     }
-    
+
+    getOrder(): IterableIterator<string> {
+        const stack = new LinkedStack<string>();
+        try {
+            GraphUtil.depthFirstSearch(this, (node: string, visited: boolean): boolean => {
+                if (visited) {
+                    stack.push(node);
+                }
+                return true;
+            });
+        } catch (err) {
+            throw new Error('this is cyclic');
+        }
+        return stack.iterator();
+    }
 }
 
-export { StringGraph };
+export { DependencyGraph };
