@@ -1,9 +1,5 @@
-import { hashCode } from '../util/hashCode';
+import { hashCode, HashFunction } from '../util/hashCode';
 import { consistentStringify } from '../util/consistentStringify';
-
-export interface HashFunction<T> {
-    (obj: T): number
-}
 
 export const defaultHashFunction: HashFunction<any> = (obj: any): number => {
     return hashCode(consistentStringify(obj));
@@ -16,10 +12,10 @@ interface MapItem<T, U> {
 
 export class HashMap<T, U> implements Map<T, U> {
 
-    private readonly hashFunction;
+    private readonly hashFunction: HashFunction<T>;
     private readonly map: Map<number, MapItem<T, U>>;
 
-    readonly [Symbol.toStringTag]: string = '[object Map]';
+    readonly [Symbol.toStringTag]: string = 'Map';
 
     constructor(hashFunction?: HashFunction<T>) {
         this.hashFunction = hashFunction ? hashFunction : defaultHashFunction;

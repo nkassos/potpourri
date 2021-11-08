@@ -7,19 +7,26 @@
   "scripts": {
     "test": "mocha --require ts-node/register test/**/*.ts",
     "build": "tsc",
-    "install": "npm run build"
+    "prebuild": "rimraf dist",
+    "install": "npm run build",
+    "prepare": "npm run build",
+    "prepublishOnly": "npm test"
   },
   "author": "Noah Kassos",
   "license": "ISC",
   "mocha": {
     "require": "ts-node/register"
   },
+  "files": [
+    "dist/**/*"
+  ],
   "devDependencies": {
     "@types/chai": "^4.2.22",
     "@types/mocha": "^9.0.0",
     "@types/node": "^16.11.6",
     "chai": "^4.3.4",
     "mocha": "^9.1.3",
+    "rimraf": "^3.0.2",
     "ts-node": "^10.4.0",
     "typescript": "^4.4.4"
   }

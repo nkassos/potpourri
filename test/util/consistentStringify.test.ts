@@ -18,9 +18,6 @@ describe('consistentStringify', () => {
         const json = consistentStringify(obj);
         const json2 = consistentStringify(obj2);
 
-        console.log(json);
-        console.log(json2);
-
         assert.equal(json, json2);
     });
 
@@ -48,9 +45,6 @@ describe('consistentStringify', () => {
         const json = consistentStringify(obj);
         const json2 = consistentStringify(obj2);
 
-        console.log(json);
-        console.log(json2);
-
         assert.equal(json, json2);
     });
 
@@ -77,9 +71,6 @@ describe('consistentStringify', () => {
 
         const json = consistentStringify(obj);
         const json2 = consistentStringify(obj2);
-
-        console.log(json);
-        console.log(json2);
 
         assert.equal(json, json2);
     });

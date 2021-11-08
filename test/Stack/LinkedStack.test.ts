@@ -47,11 +47,9 @@ describe('LinkedStack tests', () => {
             stack.push(2);
             stack.push(3);
 
-            console.log('Iterating...');
             const iterator = stack.iterator();
             let expected = 3;
             for(let val of iterator) {
-                console.log(val);
                 assert.equal(val, expected--);
             }
             assert.equal(expected, 0);

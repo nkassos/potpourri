@@ -2,5 +2,5 @@
 *.iml
 package-lock.json
 node_modules/
-dist/
+/dist
 .DS_Store

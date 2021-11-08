@@ -1,7 +1,7 @@
-import { HashFunction, HashMap } from '../../src/Map/HashMap';
+import { HashMap } from '../../src/Map/HashMap';
 import { assert } from 'chai';
 import { describe, it } from 'mocha';
-import { hashCode } from '../../src/util/hashCode';
+import { hashCode, HashFunction } from '../../src/util/hashCode';
 
 interface KeyType {
     keyValue: string;
@@ -218,6 +218,13 @@ describe('HashMap', () => {
             }
 
             assert.equal(count, map.size);
+        });
+    });
+
+    describe('#toString', () => {
+        it('should return [object Map] when calling toString', () => {
+            const map = new HashMap<KeyType, ValueType>(hashFunction);
+            assert.equal(Object.prototype.toString.call(map), '[object Map]');
         });
     });
 
