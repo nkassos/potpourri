@@ -2,9 +2,10 @@ import { HashMap } from '../../src/Map/HashMap';
 import { assert } from 'chai';
 import { describe, it } from 'mocha';
 import { hashCode, HashFunction } from '../../src/util/hashCode';
+import { Hash } from 'crypto';
 
 interface KeyType {
-    keyValue: string;
+    key: string;
 }
 
 interface ValueType {
@@ -14,11 +15,11 @@ interface ValueType {
 describe('HashMap', () => {
 
     const hashFunction: HashFunction<KeyType> = (key) => {
-        return hashCode(key.keyValue);
+        return hashCode(key.key);
     };
 
     const key: KeyType = {
-        keyValue: 'key'
+        key: 'key'
     };
 
     const value: ValueType = {
@@ -43,7 +44,7 @@ describe('HashMap', () => {
             map.set(key, value);
 
             const newKey: KeyType = {
-                keyValue: 'key'
+                key: 'key'
             };
 
             const result = map.get(newKey);
@@ -53,7 +54,7 @@ describe('HashMap', () => {
         it('should return undefined if the key does not exist', () => {
             const map = new HashMap<KeyType, ValueType>(hashFunction);
             const newKey: KeyType = {
-                keyValue: 'key'
+                key: 'key'
             };
 
             const result = map.get(newKey);
@@ -67,7 +68,7 @@ describe('HashMap', () => {
             map.set(key, value);
 
             const newKey: KeyType = {
-                keyValue: 'key'
+                key: 'key'
             };
 
             assert.isTrue(map.has(newKey));
@@ -76,7 +77,7 @@ describe('HashMap', () => {
         it('should return false if collection does not contain a key with the same hash', () => {
             const map = new HashMap<KeyType, ValueType>(hashFunction);
             const newKey: KeyType = {
-                keyValue: 'key'
+                key: 'key'
             };
 
             assert.isFalse(map.has(newKey));
@@ -90,7 +91,7 @@ describe('HashMap', () => {
             assert.equal(1, map.size);
 
             const newKey: KeyType = {
-                keyValue: 'key'
+                key: 'key'
             };
 
             assert.isTrue(map.delete(newKey));
@@ -103,7 +104,7 @@ describe('HashMap', () => {
             assert.equal(1, map.size);
 
             const newKey: KeyType = {
-                keyValue: 'newKay'
+                key: 'newKay'
             };
 
             assert.isFalse(map.delete(newKey));
@@ -131,7 +132,7 @@ describe('HashMap', () => {
             for(let k of map.keys()) {
                 ++count;
                 assert.deepEqual(k, {
-                    keyValue: 'key'
+                    key: 'key'
                 });
             }
 
@@ -169,7 +170,7 @@ describe('HashMap', () => {
                 });
 
                 assert.deepEqual(k, {
-                    keyValue: 'key'
+                    key: 'key'
                 });
 
                 assert.equal(m, map);
@@ -189,7 +190,7 @@ describe('HashMap', () => {
                 ++count;
                 assert.deepEqual(entry, [
                     {
-                        keyValue: 'key'
+                        key: 'key'
                     },
                     {
                         value: 'value'
@@ -209,7 +210,7 @@ describe('HashMap', () => {
                 ++count;
                 assert.deepEqual(entry, [
                     {
-                        keyValue: 'key'
+                        key: 'key'
                     },
                     {
                         value: 'value'
@@ -226,6 +227,18 @@ describe('HashMap', () => {
             const map = new HashMap<KeyType, ValueType>(hashFunction);
             assert.equal(Object.prototype.toString.call(map), '[object Map]');
         });
+    });
+
+    it('should use a custom hash function', () => {
+        const map: Map<KeyType, ValueType> =  new HashMap((key) => {
+            return hashCode(key.key);
+        });
+
+        map.set({ key: 'key' }, { value: 'value' });
+
+        assert.isTrue(map.has({
+            key: 'key'
+        }));
     });
 
 });
