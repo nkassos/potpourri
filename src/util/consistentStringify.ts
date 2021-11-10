@@ -1,17 +1,14 @@
-import { getObjectType, ObjectType } from './getObjectType';
-
 function handleValueByType(value: any) {
-    const type = getObjectType(value);
-    if(type === ObjectType.Array) {
+    if(Array.isArray(value)) {
         return orderArrayObjects(value);
-    } else if(type === ObjectType.Object) {
+    } else if (Object.prototype.toString.call(value) === '[object Object]') {
         return orderObjectKeys(value);
     }
 
     return value;
 }
 
-function orderArrayObjects(arr: [any]) {
+function orderArrayObjects(arr: any[]) {
     return arr.map(value => {
         return handleValueByType(value);
     });

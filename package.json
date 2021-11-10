@@ -5,7 +5,7 @@
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "scripts": {
-    "test": "mocha --require ts-node/register test/**/*.ts",
+    "test": "mocha test/**/*.ts",
     "build": "tsc",
     "prebuild": "rimraf dist",
     "install": "npm run build",
