@@ -3,26 +3,6 @@ import { GraphUtil } from '../../dist/Graph/GraphUtil';
 import { assert } from 'chai';
 
 describe('SimpleGraph', () => {
-    it('should create the correct order', () => {
-        const g = new SimpleGraph();
-        g.addNode('node-1');
-        g.addNode('node-2');
-        g.addNode('node-3');
-
-        g.addEdge('node-1', 'node-3');
-        g.addEdge('node-3', 'node-2');
-
-        const order = g.getOrder();
-        assert.ok(order);
-        assert.equal(order.next().value, 'node-1');
-        assert.equal(order.next().value, 'node-3');
-        assert.equal(order.next().value, 'node-2');
-
-        const next = order.next();
-        assert.equal(next.value, undefined);
-        assert.equal(next.done, true);
-    });
-
     it('should detect a cycle', () => {
         const g = new SimpleGraph();
         g.addNode('node-1');
@@ -34,10 +14,16 @@ describe('SimpleGraph', () => {
         g.addEdge('node-3', 'node-1');
 
         try {
-            const order = g.getOrder();
+            GraphUtil.depthFirstSearch(g, (node, visited) => true);
+            //const order = g.getOrder();
             assert.fail('Should have thrown an error due to a cycle');
         } catch (e) {
-            assert.equal(e.message, 'this is cyclic');
+            assert.equal(e.message, 'Cycle Detected');
+            assert.deepEqual(e.cycle, [
+                'node-3',
+                'node-2',
+                'node-1'
+            ]);
         }
     });
 

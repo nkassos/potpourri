@@ -2,21 +2,21 @@ import type { Graph } from './Graph';
 import type { Stack } from '../Stack/Stack';
 import { LinkedStack } from "../Stack/LinkedStack";
 import type { NodeVistedCallback } from './types';
+import { CyclicalGraphError } from './CyclicalGraphError';
 
 function visit<T>(node: T, visited: Set<T>, stack: Stack<T>, edges: Map<T, Set<T>>, callback: NodeVistedCallback<T>) {
     if(!visited.has(node)) {
         if(stack.has(node)) {
             // detects a cycle
             // push the relevant nodes onto a stack and throw
-            const cycle = new LinkedStack<T>();
-            cycle.push(node);
+            const cycle: T[] = [];
             let next = stack.pop();
             while(next != node) {
                 cycle.push(next);
                 next = stack.pop();
             }
             cycle.push(next);
-            throw cycle;
+            throw new CyclicalGraphError(cycle);
         }
 
         stack.push(node);
@@ -37,7 +37,7 @@ function visit<T>(node: T, visited: Set<T>, stack: Stack<T>, edges: Map<T, Set<T
 
 const GraphUtil = {
     // throws for a cycle
-    depthFirstSearch<T>(graph: Graph<T>, callback?: NodeVistedCallback<T>) {
+    depthFirstSearch<T>(graph: Graph<T>, callback: NodeVistedCallback<T>) {
         const visited = new Set<T>();
         const stack = new LinkedStack<T>();
         graph.getNodes().forEach((node) => {
