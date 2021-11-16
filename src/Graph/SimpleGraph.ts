@@ -1,6 +1,4 @@
 import type { Graph } from './Graph';
-import { LinkedStack } from '../Stack/LinkedStack';
-import { GraphUtil } from './GraphUtil';
 import { PrimitiveLabel } from '../util/PrimitiveLabel';
 
 
