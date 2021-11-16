@@ -7,7 +7,7 @@
   "scripts": {
     "test": "mocha test/**/*.ts",
     "build": "tsc",
-    "prebuild": "rimraf dist",
+    "prebuild": "rm -rf dist",
     "install": "npm run build",
     "prepare": "npm run build",
     "prepublishOnly": "npm test"
