@@ -18,11 +18,9 @@ export class LinkedList<T> implements List<T> {
         this.#size = 0;
     }
 
-    forEach(fn: (item: T) => any): void {
-        let cur = this.#collectionStart;
-        while(cur != null) {
-            if(fn(cur.data) === false) break;
-            cur = cur.next;
+    forEach(fn: (item: T, index?: number) => any): void {
+        for(let cur = this.#collectionStart, index = 0 ; cur != null ; cur = cur.next) {
+            if(fn(cur.data, index++) === false) break;
         }
     }
 
@@ -37,10 +35,8 @@ export class LinkedList<T> implements List<T> {
     has(arg: T, comparator?: (item: T, arg?: T) => boolean): boolean {
         let found = false;
         this.forEach((item) => {
-            if(comparator(item, arg)) {
-                found = true;
-                return false;
-            }
+            found = comparator(item, arg);
+            return !found;
         });
 
         return found;
@@ -52,6 +48,13 @@ export class LinkedList<T> implements List<T> {
     }
 
     unshift(): T {
+        if(this.#size) {
+            const node = this.#collectionStart;
+            this.#collectionStart = node.next;
+            this.#size -= 1;
+            return node.data;
+        }
+
         return undefined;
     }
 
@@ -97,16 +100,7 @@ export class LinkedList<T> implements List<T> {
     }
 
     get(index: number): T {
-        if(index >= 0 && index < this.#size) {
-            let cur = this.#collectionStart;
-            for(let curIndex = 0 ; curIndex < index ; ++curIndex) {
-                cur = cur.next;
-            }
-
-            return cur.data;
-        } else {
-            return null;
-        }
+        return this.goToIndex(index)?.data;
     }
 
     add(index: number, item: T): this {
@@ -191,11 +185,9 @@ export class LinkedList<T> implements List<T> {
         let cur = this.#collectionStart;
         let curIndex = 0;
         let curResult: U = initialValue === undefined ? null : initialValue;
-        while(cur != null) {
-            curResult = fn(cur.data, curResult, curIndex);
-            ++curIndex;
-            cur = cur.next;
-        }
+        this.forEach((item, index) => {
+            curResult = fn(item, curResult, index);
+        });
 
         return curResult;
     }

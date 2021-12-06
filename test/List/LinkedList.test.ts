@@ -54,6 +54,20 @@ describe('LinkedList tests', () => {
         });
     });
 
+    describe('unshift', () => {
+        it('should remove an element from the beginning of the array', () => {
+            const list = new LinkedList<number>();
+            assert.equal(list.size(), 0);
+
+            list.push(1);
+            list.push(2);
+            assert.equal(list.size(), 2);
+
+            assert.equal(list.unshift(), 1);
+            assert.equal(list.unshift(), 2);
+            assert.equal(list.size(), 0);
+        });
+    });
 
     describe('iterator', () => {
         it('should iterate over all elements', () => {
@@ -191,7 +205,7 @@ describe('LinkedList tests', () => {
     });
 
     describe('has', () => {
-        it('checks for an item that is present', () => {
+        it('checks for an item that is present and exit early', () => {
             const list = new LinkedList<number>();
             list.push(1)
                 .push(2)
@@ -199,9 +213,13 @@ describe('LinkedList tests', () => {
                 .push(4)
                 .push(5);
 
+            let count = 0;
             assert.isTrue(list.has(3, (item, arg) => {
+                ++count;
                 return item === arg;
             }));
+
+            assert.equal(count, 3);
         });
 
         it('should return false when an item is not present', () => {
@@ -215,6 +233,19 @@ describe('LinkedList tests', () => {
             assert.isFalse(list.has(6, (item, arg) => {
                 return item === arg;
             }));
+        });
+    });
+
+    describe('get', () => {
+        it('should get the value at a specified index', () => {
+            const list = new LinkedList<number>();
+            list.push(1)
+                .push(2)
+                .push(3);
+
+            assert.equal(list.get(0), 1);
+            assert.equal(list.get(1), 2);
+            assert.equal(list.get(2), 3);
         });
     });
 

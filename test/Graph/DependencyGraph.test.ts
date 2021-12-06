@@ -1,5 +1,5 @@
 import { SimpleGraph } from '../../src/Graph/SimpleGraph';
-import { GraphUtil } from '../../dist/Graph/GraphUtil';
+import { depthFirstSearch } from '../../src/Graph/depthFirstSearch';
 import { assert } from 'chai';
 
 describe('SimpleGraph', () => {
@@ -14,8 +14,7 @@ describe('SimpleGraph', () => {
         g.addEdge('node-3', 'node-1');
 
         try {
-            GraphUtil.depthFirstSearch(g, (node, visited) => true);
-            //const order = g.getOrder();
+            depthFirstSearch(g, (node, visited) => true);
             assert.fail('Should have thrown an error due to a cycle');
         } catch (e) {
             assert.equal(e.message, 'Cycle Detected');
