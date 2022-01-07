@@ -1,28 +1,28 @@
-export interface Stack<T> {
+import { LimitedAccessCollection } from '../LimitedAccessCollection';
+import { Comparator, defaultComparator } from '../util/Comparator';
 
-    /**
-     * Adds the item to the end of the collection
-     */
-    push(item: T)
+export abstract class Stack<T> implements LimitedAccessCollection<T> {
 
-    /**
-     * Returns the most recently added item and removed it from the collection
-     */
-    pop(): T
+    protected readonly comparator: Comparator<T>;
 
-    /**
-     * Returns true if the stack contains the specified item
-     * Optionally takes a function to perform the comparison
-     */
-    has(item: T, comparator?: (actual: T, expected: T) => boolean): boolean
+    constructor(comparator?: Comparator<T>) {
+        this.comparator = comparator || defaultComparator;
+    }
 
-    /**
-     * returns the number of elements in the stack
-     */
-    size(): number
+    abstract has(item: Partial<T>): boolean;
+    abstract has(item: Partial<T>, comparator: Comparator<T>): boolean;
+    abstract peek(): T;
+    abstract pop(): T;
+    abstract push(item: T);
+    abstract size(): number;
 
-    /**
-     * Returns an iterator
-     */
-    iterator(): IterableIterator<T>
+    *iterator(): IterableIterator<T> {
+        while(this.size()) {
+            yield this.pop();
+        }
+    }
+
+    *[Symbol.iterator](): IterableIterator<T> {
+        return this.iterator();
+    }
 }

@@ -1,4 +1,5 @@
 import { List } from './List';
+import { Comparator, defaultComparator } from '../util/Comparator';
 
 interface ListItem<T> {
     data: T;
@@ -11,11 +12,13 @@ export class LinkedList<T> implements List<T> {
     #collectionStart: ListItem<T>;
     #collectionEnd: ListItem<T>;
     #size: number;
+    #comparator: Comparator<T>;
 
-    constructor() {
+    constructor(comparator?: Comparator<T>) {
         this.#collectionStart = null;
         this.#collectionEnd = null;
         this.#size = 0;
+        this.#comparator = comparator || defaultComparator;
     }
 
     forEach(fn: (item: T, index?: number) => any): void {
@@ -32,10 +35,11 @@ export class LinkedList<T> implements List<T> {
         }
     }
 
-    has(arg: T, comparator?: (item: T, arg?: T) => boolean): boolean {
+    has(arg: Partial<T>, comparator?: Comparator<T>): boolean {
+        const localComparator = comparator || this.#comparator;
         let found = false;
         this.forEach((item) => {
-            found = comparator(item, arg);
+            found = !!localComparator(item, arg);
             return !found;
         });
 

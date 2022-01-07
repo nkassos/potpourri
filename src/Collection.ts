@@ -1,3 +1,5 @@
+import { Comparator } from './util/Comparator';
+
 export interface Collection<T> {
 
     /**
@@ -14,7 +16,7 @@ export interface Collection<T> {
      * @param arg
      * @param comparator
      */
-    has(arg: T, comparator?: (item: T, arg?: T) => boolean): boolean;
+    has(arg: Partial<T>, comparator?: Comparator<T>): boolean;
 
     /**
      * Returns the elements of this collection in an array.
