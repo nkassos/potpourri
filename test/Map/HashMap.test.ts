@@ -1,8 +1,8 @@
 import { HashMap } from '../../src/Map/HashMap';
 import { assert } from 'chai';
+import * as sinon from 'sinon';
 import { describe, it } from 'mocha';
 import { hashCode, HashFunction } from '../../src/util/hashCode';
-import { Hash } from 'crypto';
 
 interface KeyType {
     key: string;
@@ -172,11 +172,32 @@ describe('HashMap', () => {
                 assert.deepEqual(k, {
                     key: 'key'
                 });
-
-                assert.equal(m, map);
             });
 
             assert.equal(count, map.size);
+        });
+
+        it('should pass the map as the third argument', () => {
+            const callback = sinon.spy();
+            const map = new HashMap<KeyType, ValueType>(hashFunction);
+            map.set(key, value);
+            map.forEach(callback);
+            sinon.assert.calledOnceWithExactly(callback, value, key, map);
+        });
+
+        it('should set a value for this', () => {
+            const map = new HashMap<KeyType, ValueType>(hashFunction);
+            map.set(key, value);
+
+            const thisArg: object = {};
+
+            let count = 0;
+            map.forEach(function (this: any, v, k, m) {
+                assert.isTrue(this === thisArg);
+                ++count;
+            }, thisArg);
+
+            assert.isTrue(count > 0);
         });
     });
 

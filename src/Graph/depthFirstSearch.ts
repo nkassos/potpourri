@@ -2,7 +2,7 @@ import { Stack } from '../Stack/Stack';
 import { NodeVistedCallback } from './types';
 import { CyclicalGraphError } from './CyclicalGraphError';
 import { Graph } from './Graph';
-import { LinkedStack } from '../Stack/LinkedStack';
+import { ArrayStack } from '../Stack/ArrayStack';
 
 function visit<T>(node: T, visited: Set<T>, stack: Stack<T>, edges: Map<T, Set<T>>, callback: NodeVistedCallback<T>) {
     if(!visited.has(node)) {
@@ -37,7 +37,7 @@ function visit<T>(node: T, visited: Set<T>, stack: Stack<T>, edges: Map<T, Set<T
 
 export function depthFirstSearch<T>(graph: Graph<T>, callback: NodeVistedCallback<T>) {
     const visited = new Set<T>();
-    const stack = new LinkedStack<T>();
+    const stack = new ArrayStack<T>();
     graph.getNodes().forEach((node) => {
         const result = visit(node, visited, stack, graph.getEdges(), callback);
     });
